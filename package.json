@@ -12,7 +12,8 @@
     "start": "strapi start",
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
-    "upgrade:dry": "npx @strapi/upgrade latest --dry"
+    "upgrade:dry": "npx @strapi/upgrade latest --dry",
+    "test": "jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.30.0",
@@ -25,9 +26,14 @@
     "styled-components": "^6.0.0"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.5",
     "typescript": "^5"
   },
   "engines": {
@@ -37,5 +43,28 @@
   "strapi": {
     "uuid": "ee7f42a4-04e1-4f1a-962c-63292426b7eb",
     "installId": "cc47644712b74a70811c0099265bf4ddf086baef9cf83949d14d196945647452"
-  }
+  },
+ "jest": {
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "verbose": true,                        
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    ".tmp",
+    ".cache"
+  ],
+  "moduleNameMapper": {
+    "^/create-service$": "<rootDir>/create-service"
+  },
+  "moduleFileExtensions": ["ts", "js", "json", "node"],
+  "transform": {
+    "^.+\\.ts$": "ts-jest"
+  },
+  "testMatch": [
+    "**/tests/**/*.test.ts",
+    "**/__tests__/**/*.ts"
+  ]
+}
+
+
 }
