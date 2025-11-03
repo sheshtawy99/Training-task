@@ -475,7 +475,7 @@ export interface ApiCommentComment extends Struct.CollectionTypeSchema {
     singularName: 'comment';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     author: Schema.Attribute.Relation<
@@ -508,7 +508,7 @@ export interface ApiPostPost extends Struct.CollectionTypeSchema {
     singularName: 'post';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     author: Schema.Attribute.Relation<
