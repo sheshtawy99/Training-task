@@ -13,13 +13,13 @@
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
-    "test": "jest --forceExit --detectOpenHandles"
+    "test": "NODE_ENV=test jest --forceExit --detectOpenHandles"
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.30.0",
     "@strapi/plugin-users-permissions": "5.30.0",
     "@strapi/strapi": "5.30.0",
-    "better-sqlite3": "11.3.0",
+    "better-sqlite3": "^11.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
@@ -32,6 +32,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "jest": "^30.2.0",
+    "sqlite3": "^5.1.7",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.5",
     "typescript": "^5"
@@ -44,27 +45,30 @@
     "uuid": "ee7f42a4-04e1-4f1a-962c-63292426b7eb",
     "installId": "cc47644712b74a70811c0099265bf4ddf086baef9cf83949d14d196945647452"
   },
- "jest": {
-  "preset": "ts-jest",
-  "testEnvironment": "node",
-  "verbose": true,                        
-  "testPathIgnorePatterns": [
-    "/node_modules/",
-    ".tmp",
-    ".cache"
-  ],
-  "moduleNameMapper": {
-    "^/create-service$": "<rootDir>/create-service"
-  },
-  "moduleFileExtensions": ["ts", "js", "json", "node"],
-  "transform": {
-    "^.+\\.ts$": "ts-jest"
-  },
-  "testMatch": [
-    "**/tests/**/*.test.ts",
-    "**/__tests__/**/*.ts"
-  ]
-}
-
-
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "verbose": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      ".tmp",
+      ".cache"
+    ],
+    "moduleNameMapper": {
+      "^/create-service$": "<rootDir>/create-service"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testMatch": [
+      "**/tests/**/*.test.ts",
+      "**/__tests__/**/*.ts"
+    ]
+  }
 }
