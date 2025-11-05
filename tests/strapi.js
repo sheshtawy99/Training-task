@@ -164,10 +164,13 @@ if (!originalLoadConfigDir.__tsRuntimePatched) {
   patchedLoadConfigDir.__tsRuntimePatched = true;
   require.cache[configLoaderPath].exports = patchedLoadConfigDir;
 }
-
 // ============================================
 // 3. PATCH: Database Connection Handler
 // ============================================
+// This section normalizes database client names for testing.
+// Maps Strapi's client names (sqlite, mysql, postgres) to actual driver names
+// (sqlite3, mysql2, pg) and handles connection pooling.
+
 databaseConnection.createConnection = (() => {
   const clientMap = {
     sqlite: 'sqlite3',
@@ -193,8 +196,14 @@ databaseConnection.createConnection = (() => {
 
       knexConfig.pool.afterCreate = (conn, done) => {
         strapiAfterCreate(conn, (err, nativeConn) => {
-          if (err) return done(err, nativeConn);
-          if (userAfterCreate) return userAfterCreate(nativeConn, done);
+          if (err) {
+            return done(err, nativeConn);
+          }
+
+          if (userAfterCreate) {
+            return userAfterCreate(nativeConn, done);
+          }
+
           return done(null, nativeConn);
         });
       };
@@ -213,17 +222,7 @@ if (typeof jest !== 'undefined' && typeof jest.setTimeout === 'function') {
 
 const { createStrapi } = require('@strapi/strapi');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'test';
-process.env.APP_KEYS = process.env.APP_KEYS || 'testKeyOne,testKeyTwo';
-process.env.API_TOKEN_SALT = process.env.API_TOKEN_SALT || 'test-api-token-salt';
-process.env.ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || 'test-admin-jwt-secret';
-process.env.TRANSFER_TOKEN_SALT = process.env.TRANSFER_TOKEN_SALT || 'test-transfer-token-salt';
-process.env.ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '0123456789abcdef0123456789abcdef';
-process.env.JWT_SECRET = process.env.JWT_SECRET || 'test-jwt-secret';
-process.env.DATABASE_CLIENT = process.env.DATABASE_CLIENT || 'sqlite';
-process.env.DATABASE_FILENAME = process.env.DATABASE_FILENAME || ':memory:';
-process.env.STRAPI_DISABLE_CRON = 'true';
-process.env.PORT = process.env.PORT || '0';
+const dotenv = require('dotenv');
 
 const databaseClient = process.env.DATABASE_CLIENT || 'sqlite';
 const clientMap = {
@@ -252,9 +251,16 @@ let instance;
 // ============================================
 async function setupStrapi() {
   if (!instance) {
+    
     instance = await createStrapi().load();
     global.strapi = instance;
-
+    console.log('Environment file loaded from ====>>>:',process.env.NODE_ENV) ;
+    
+    console.log('Strapi ======>>>>>>> ' , process.env.DATABASE_FILENAME);
+    const dbSettings = strapi.config.get('database.connection');
+    const tmpDbFile = dbSettings.connection.filename;
+    console.log('Temporary database file for tests:', tmpDbFile);
+    console.log('Database settings for tests:', dbSettings);
     // Patch the user service to automatically assign the authenticated role
     const userService = strapi.plugins['users-permissions']?.services?.user;
     if (userService) {

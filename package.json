@@ -13,7 +13,7 @@
     "strapi": "strapi",
     "upgrade": "npx @strapi/upgrade latest",
     "upgrade:dry": "npx @strapi/upgrade latest --dry",
-    "test": "NODE_ENV=test jest --forceExit --detectOpenHandles"
+    "test":  "jest --forceExit --detectOpenHandles "
   },
   "dependencies": {
     "@strapi/plugin-cloud": "5.30.0",
@@ -69,6 +69,7 @@
     "testMatch": [
       "**/tests/**/*.test.ts",
       "**/__tests__/**/*.ts"
-    ]
+    ],
+    "setupFiles": ["<rootDir>/tests/jest.setup.js"]
   }
 }
