@@ -32,11 +32,20 @@ jobs:
         run: npm run build
         continue-on-error: true
 
+      - name: Create .env.test file
+        run: |
+          echo "NODE_ENV=test" > .env.test
+          echo "DATABASE_CLIENT=sqlite" >> .env.test
+          echo "DATABASE_FILENAME=${{ secrets.DATABASE_FILENAME }}" >> .env.test
+
       - name: Run tests
         env:
-          NODE_ENV: test
-          DATABASE_CLIENT: sqlite
-          DATABASE_FILENAME: .tmp/test.db
+          APP_KEYS: ${{ secrets.APP_KEYS }}
+          API_TOKEN_SALT: ${{ secrets.API_TOKEN_SALT }}
+          ADMIN_JWT_SECRET: ${{ secrets.ADMIN_JWT_SECRET }}
+          TRANSFER_TOKEN_SALT: ${{ secrets.TRANSFER_TOKEN_SALT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
         run: npm test
 
       - name: Upload test results

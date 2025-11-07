@@ -120,7 +120,7 @@ coverage
 ############################
 # Strapi
 ############################
-
+.env.test
 .env
 license.txt
 exports
