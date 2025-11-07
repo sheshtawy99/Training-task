@@ -1,4 +1,4 @@
-import { POST_ERRORS } from '../../../../tests/constants/errors';
+import { POST_ERRORS, POST_POLICIES } from '../../../../tests/constants/errors';
 
 export default async (policyContext, config, { strapi }) => {
   const { user } = policyContext.state;
@@ -24,7 +24,7 @@ export default async (policyContext, config, { strapi }) => {
 
   if (!isAuthor) {
     throw new PolicyError(POST_ERRORS.UNAUTHORIZED_DELETE, {
-      policy: 'is-post-author-delete',
+      policy: POST_POLICIES.DELETE,
     });
   }
 

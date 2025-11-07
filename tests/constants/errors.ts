@@ -43,6 +43,20 @@ export const VALIDATION_ERRORS = {
 } as const;
 
 // ============================================
+// Policy Names - Posts
+// ============================================
+export const POST_POLICIES = {
+  DELETE: 'is-post-author-delete',
+} as const;
+
+// ============================================
+// Policy Names - Comments
+// ============================================
+export const COMMENT_POLICIES = {
+  DELETE: 'is-comment-author-or-post-author-delete',
+} as const;
+
+// ============================================
 // All Error Messages (for convenience)
 // ============================================
 export const ERROR_MESSAGES = {
