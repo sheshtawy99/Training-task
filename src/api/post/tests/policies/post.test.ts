@@ -1,5 +1,6 @@
 import { errors } from '@strapi/utils';
 import deletepost from '../../policies/delete-post';
+import { POST_ERRORS } from '../../../../../tests/constants/errors';
 
 const { PolicyError } = errors;
 
@@ -40,7 +41,7 @@ describe('Post Policies', () => {
       });
       await expect(
         deletepost(baseContext, {}, { strapi: mockStrapi })
-      ).rejects.toThrow('You can only delete your own posts');
+      ).rejects.toThrow(POST_ERRORS.UNAUTHORIZED_DELETE);
     });
   });
 });

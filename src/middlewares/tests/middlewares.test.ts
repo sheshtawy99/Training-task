@@ -2,6 +2,7 @@ import { Context } from 'koa';
 import { Core } from '@strapi/strapi';
 import attachAuthor from '../attach-author';
 import validateCommentPost from '../validate-comment-post';
+import { HTTP_STATUS, VALIDATION_ERRORS } from '../../../tests/constants/errors';
 
 describe('Middleware Tests', () => {
   const mockStrapi = {
@@ -52,8 +53,8 @@ describe('Middleware Tests', () => {
       const nextFn = jest.fn();
       const middleware = validateCommentPost();
 
-      await expect(middleware(mockCtx, nextFn)).rejects.toThrow('You must include the post ID for this comment!');
-      expect(mockCtx.throw).toHaveBeenCalledWith(400, 'You must include the post ID for this comment!');
+      await expect(middleware(mockCtx, nextFn)).rejects.toThrow(VALIDATION_ERRORS.MISSING_POST_ID);
+      expect(mockCtx.throw).toHaveBeenCalledWith(HTTP_STATUS.BAD_REQUEST, VALIDATION_ERRORS.MISSING_POST_ID);
       expect(nextFn).not.toHaveBeenCalled();
     });
 

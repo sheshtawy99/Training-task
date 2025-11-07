@@ -1,9 +1,11 @@
+import { COMMENT_ERRORS } from '../../../../tests/constants/errors';
+
 export default async (policyContext, config, { strapi }) => {
   const { user } = policyContext.state;
   const { request, params, route, ctx } = policyContext;
   const method = request.method.toLowerCase();
   const { errors } = require('@strapi/utils');
-  const { PolicyError } = errors;
+  const { PolicyError , NotFoundError} = errors;
   // Deletion rules
   if (method === 'delete') {
     const documentId = params.id;
@@ -14,18 +16,19 @@ export default async (policyContext, config, { strapi }) => {
       populate: ['author', 'post.author'],
     });
 
-    if (!comment) throw new PolicyError('comment not found', {
-      policy: 'is-post-author-delete',
-    });
-    
+    if (!comment) {
+        throw new NotFoundError(COMMENT_ERRORS.NOT_FOUND); // <-- returns 404
+    }
+
 
     const isCommentAuthor = comment.author?.id === user.id;
     const isPostAuthor = comment.post?.author?.id === user.id;
 
-    if (!isCommentAuthor && !isPostAuthor)throw new PolicyError('You can only delete your own comments or comments on your posts', {
+    if (!isCommentAuthor && !isPostAuthor){
+      throw new PolicyError(COMMENT_ERRORS.UNAUTHORIZED_DELETE, {
       policy: 'is-post-author-delete',
     });
-    
+  }
   }
 
   return true;

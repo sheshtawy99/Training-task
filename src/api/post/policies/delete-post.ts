@@ -1,3 +1,5 @@
+import { POST_ERRORS } from '../../../../tests/constants/errors';
+
 export default async (policyContext, config, { strapi }) => {
   const { user } = policyContext.state;
   const { params } = policyContext;
@@ -14,14 +16,14 @@ export default async (policyContext, config, { strapi }) => {
 
   // Post not found
   if (!post) {
-    throw new errors.NotFoundError('post not found');
+    throw new errors.NotFoundError(POST_ERRORS.NOT_FOUND);
   }
 
   // Check if current user is the author
   const isAuthor = post.author?.id === user.id;
 
   if (!isAuthor) {
-    throw new PolicyError('You can only delete your own posts', {
+    throw new PolicyError(POST_ERRORS.UNAUTHORIZED_DELETE, {
       policy: 'is-post-author-delete',
     });
   }

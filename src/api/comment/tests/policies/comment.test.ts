@@ -1,6 +1,6 @@
 import { errors } from '@strapi/utils';
 import DeleteComment from '../../policies/delete-comment';
-
+import { COMMENT_ERRORS } from '../../../../../tests/constants/errors';
 
 const { PolicyError } = errors;
 
@@ -63,7 +63,7 @@ describe('Comment Policies', () => {
 
       await expect(
         DeleteComment(baseContext, {}, { strapi: mockStrapi })
-      ).rejects.toThrow('comment not found');
+      ).rejects.toThrow(COMMENT_ERRORS.NOT_FOUND);
     });
 
 

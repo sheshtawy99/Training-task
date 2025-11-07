@@ -70,6 +70,10 @@
       "**/tests/**/*.test.ts",
       "**/__tests__/**/*.ts"
     ],
-    "setupFiles": ["<rootDir>/tests/jest.setup.js"]
+    "setupFiles": [
+      "<rootDir>/tests/jest.setup.js"
+      
+    ]
+    
   }
 }
