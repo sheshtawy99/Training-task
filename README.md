@@ -292,7 +292,7 @@ Required secrets for CI/CD:
 
 🎥 [Watch the Loom video](https://www.loom.com/share/b52be9a9543e44eb9434315dc76d1b67).
 
-📋 [Jira Ticket: Traning_Task](https://metactoengineer.atlassian.net/browse/BOND-133).
+📋 [Jira Ticket: Training_Task](https://metactoengineer.atlassian.net/browse/BOND-133).
 
 
 ## Learn More
